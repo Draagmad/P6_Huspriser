@@ -1,0 +1,1 @@
+I række 84666 er der fejl ved kolonne BI ("220 og 380 volt" er i forkert kolonne)
