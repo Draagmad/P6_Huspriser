@@ -1,0 +1,19 @@
+---
+title: "databehandling"
+author: "Søren D. NIelsen"
+date: "1 maj 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(RandomFields)
+library(kriging)
+```
+
+
+```{r}
+Aalborg <- read.csv("Aalborg.csv")
+```
+
+
+
