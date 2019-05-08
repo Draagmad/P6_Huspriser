@@ -8,6 +8,12 @@ output: html_document
 ```{r setup, include=FALSE}
 library(RandomFields)
 library(kriging)
+library(sp)
+library(gstat)
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(magrittr)
 ```
 
 
@@ -15,5 +21,19 @@ library(kriging)
 Aalborg <- read.csv("Aalborg.csv")
 ```
 
+måske ikke bruge alligevel
+```{r}
+#A <- matrix(c(Aalborg$xkoor,Aalborg$ykoor), nrow=7228)
+#y <- conventional2RFspDataFrame(log(Aalborg$Kontantpris), coords =A )
+```
+
+```{r}
+model <- log(Aalborg$Kontantpris)~1
+c <- RFfit(model,x=Aalborg$xkoor, y=Aalborg$ykoor, data= Aalborg, allowdistanceZero=T)
+```
+
+```{r}
+
+```
 
 
