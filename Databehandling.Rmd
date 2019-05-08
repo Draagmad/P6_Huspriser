@@ -23,17 +23,44 @@ Aalborg <- read.csv("Aalborg.csv")
 
 måske ikke bruge alligevel
 ```{r}
-#A <- matrix(c(Aalborg$xkoor,Aalborg$ykoor), nrow=7228)
-#y <- conventional2RFspDataFrame(log(Aalborg$Kontantpris), coords =A )
+#A <- matrix(c(Aalborg2$xkoor,Aalborg2$ykoor), nrow=5651)
+#y <- conventional2RFspDataFrame(Aalborg2, coords =A )
 ```
 
 ```{r}
-model <- log(Aalborg$Kontantpris)~1
-c <- RFfit(model,x=Aalborg$xkoor, y=Aalborg$ykoor, data= Aalborg, allowdistanceZero=T)
+minx <- min(Aalborg$xkoor)
+miny <- min(Aalborg$ykoor)
+numbx <- ceiling(max(Aalborg$xkoor)-minx)
+numby <- ceiling(max(Aalborg$ykoor)-miny)
+y <- GridTopology(c(minx,miny),c(1,1),c(numbx,numby))
 ```
 
 ```{r}
+#Aa <- Aalborg[duplicated(xkoor,ykoor, .keep_all = TRUE)]
+```
 
+
+```{r}
+#Aalborg2 <- Aalborg %>% distinct(xkoor,ykoor, .keep_all = TRUE)
+```
+
+
+
+```{r}
+coordinates(Aalborg) <- ~xkoor+ykoor
+Aalborg2 <- sp2RF(Aalborg, param = list(n=1, vdim=49))
+```
+
+
+```{r}
+pris <- log(Aalborg2$Kontantpris)
+model <- pris ~ 1
+model2 <- RMgengneiting()
+c <- RFfit(model=model2, data= Aalborg2, allowdistanceZero=TRUE)
+```
+
+```{r}
+names(Aalborg2)
 ```
 
 
