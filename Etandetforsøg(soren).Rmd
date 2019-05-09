@@ -1,0 +1,111 @@
+---
+title: "noget andet"
+author: "Søren D. NIelsen"
+date: "9 maj 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(RandomFields)
+library(kriging)
+library(sp)
+library(gstat)
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(magrittr)
+library(spatstat)
+```
+
+```{r}
+RFoptions(seed=0) ## *ANY* simulation will have the random seed 0; set
+##                   RFoptions(seed=NA) to make them all random again
+
+
+
+
+RFoptions(modus_operandi="sloppy")
+```
+
+
+```{r}
+points <- 100
+x <- runif(points, 0, 3)
+y <- runif(points, 0, 3) ## random points in square [0, 3]^2
+model <- RMgencauchy(alpha=1, beta=2)
+d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=1) #1000
+```
+
+```{r}
+points <- as.matrix(expand.grid(x,y))
+model45 <- RMexp() + RMtrend(mean=1)
+dta <- RFsimulate(model45, x=points)
+plot(dta)
+x <- seq(0, 9, 0.25)
+
+```
+
+ordinær kriging
+```{r}
+model <- RMexp() + RMtrend(mean=NA)
+z <- RFinterpolate(model, x=x, y=x, data=dta)
+plot(z, dta)
+
+```
+
+
+```{r}
+estmodel <- RMgencauchy(var=NA, scale=NA, alpha=NA, beta=2) +
+            RMtrend(mean=NA)
+gh <- RFfit(estmodel, data=d)
+```
+
+```{r}
+estmodel <- RMgencauchy(var=NA, scale=NA, alpha=NA, beta=NA) + 
+            RMtrend(NA)
+RFfit(estmodel, data=d, transform = NA) ## just for information
+trafo <- function(a) c(a[1], rep(a[2], 2))
+fit <- RFfit(estmodel,params = list(n=100, vdim=1) ,data=d)
+print(fit)
+print(fit, full=TRUE)
+```
+
+
+
+```{r}
+A=as.data.frame(cbind(Aalborg$Kontantpris,Aalborg$xkoor,Aalborg$ykoor))
+Asub <- A[sample(1000,size = 50),]
+coordinates(Asub) <- ~V2+V3
+Asub <- sp2RF(Asub, param = list(n=1, vdim=1))
+A2sub <- 
+
+x <- Aalborg$xkoor
+y <- Aalborg$ykoor
+model <- RMgencauchy(alpha=1, beta=2)
+d2 <- log(A)
+coordinates(x)
+```
+
+```{r}
+estmodel2 <- RMgencauchy(var=NA, scale=NA, alpha=NA, beta=2) +
+            RMtrend(mean=NA)
+RFfit(estmodel2, data=Asub, allowdistanceZero=TRUE)
+```
+
+
+```{r}
+points <- 1000
+x <- runif(points, 0, 3)
+y <- runif(points, 0, 3) ## random points in square [0, 3]^2
+model <- RMgencauchy(alpha=1, beta=2)
+d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=1000) #1000
+```
+
+```{r}
+estmodel <- RMgencauchy(var=NA, scale=NA, alpha=NA, beta=2) +
+            RMtrend(mean=NA)
+RFfit(estmodel, data=d)
+```
+
+
+

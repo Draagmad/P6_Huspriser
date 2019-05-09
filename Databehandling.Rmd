@@ -56,7 +56,7 @@ Aalborg2 <- sp2RF(Aalborg, param = list(n=1, vdim=49))
 pris <- log(Aalborg2$Kontantpris)
 model <- pris ~ 1
 model2 <- RMgengneiting()
-c <- RFfit(model=model2, data= Aalborg2, allowdistanceZero=TRUE)
+c <- RFfit(model=model,params = list(n=1, vdim=49) , data= Aalborg2, allowdistanceZero=TRUE)
 ```
 
 ```{r}
