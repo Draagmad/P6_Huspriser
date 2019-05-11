@@ -8,21 +8,23 @@ nyHOME=HOME
 nyHOME$id=0
 nyHOME$xkoor=0
 nyHOME$ykoor=0
+Aalborg$long=0
+Aalborg$lat=0
 
 
-for (i in 159230:length(koordinater$id)) {
-  ad <- HOME$FuldAdresse[i]
-  post <- HOME$Postnr[i]
-  by <- HOME$Bynavn[i]
+for (i in 5369:length(Aalborg$long)) {
+  ad <- Aalborg$FuldAdresse[i]
+  post <- Aalborg$Postnr[i]
+  by <- Aalborg$Bynavn[i]
   tempadr <- cbind(ad,post,by)
   adr <- toString(tempadr)
   v <- datavask(adr,"adresser")
   adrid <- v$resultater[[1]]$adresse$id
-  h <- adresser(id=adrid, struktur="mini",srid=25832)
+  h <- adresser(id=adrid, struktur="mini")
     if(is.null(h[1][[1]])==TRUE){next}
-  koordinater$id[i] <- adrid
-  koordinater$xkoor[i] <- h[[1]]$x
-  koordinater$ykoor[i] <- h[[1]]$y
+  Aalborg$id[i] <- adrid
+  Aalborg$long[i] <- h[[1]]$x
+  Aalborg$lat[i] <- h[[1]]$y
 }
 
 #koordinater <- subset(koordinater, select = -c(X.2,X.1,X))
@@ -37,7 +39,7 @@ HOME$ykoor=koordinater$ykoor
 
 Aalborg <- subset(HOME, Kommune=="Aalborg")
 
-Aalborg <- subset(Aalborg, xkoor!=0)
+Aalborg <- subset(Aalborg, lat!=0)
 
 write.csv(Aalborg, file = "Aalborg.csv", row.names = FALSE)
 
