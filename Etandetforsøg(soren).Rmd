@@ -33,7 +33,7 @@ library(GenSA)
 ```
 
 ```{r}
-RFoptions(seed=0) ## *ANY* simulation will have the random seed 0; set
+RFoptions(seed=0, height=4) ## *ANY* simulation will have the random seed 0; set
 ##                   RFoptions(seed=NA) to make them all random again
 
 
@@ -110,7 +110,22 @@ Pmodel <- RFfit(model = pars.model, distances = dist.mat, dim = 3, data = P)
 ```
 
 
+```{r}
+a <- colMeans(weather[, 3:4]) * pi / 180
+P <- cbind(c(-sin(a[1]), cos(a[1]), 0), c(-cos(a[1]) * sin(a[2]), -sin(a[1]) * sin(a[2]), cos(a[2])), c(cos(a[1]) * cos(a[2]), sin(a[1]) * cos(a[2]), sin(a[2])))
+x <- RFearth2cartesian(weather[, 3:4])
+plane <- (x %*% P)[, 1:2]
 
+```
+
+```{r}
+n <- 200
+r <- apply(plane, 2, range)
+data <- cbind(plane, weather[, 1:2])
+z <- RFinterpolate(RMgauss()+RMtrend(mean = NA), data = data, dim = 2, x = seq(r[1, 1], r[2, 1], length = n), y = seq(r[1, 2], r[2, 2], length = n), varunits = c("Pa", "K"))
+plot(z)
+
+```
 
 
 
