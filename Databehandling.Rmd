@@ -45,7 +45,6 @@ y <- GridTopology(c(minx,miny),c(1,1),c(numbx,numby))
 ```
 
 
-
 ```{r}
 coordinates(Aalborg) <- ~xkoor+ykoor
 Aalborg2 <- sp2RF(Aalborg, param = list(n=1, vdim=49))
@@ -60,7 +59,13 @@ c <- RFfit(model=model,params = list(n=1, vdim=49) , data= Aalborg2, allowdistan
 ```
 
 ```{r}
-names(Aalborg2)
+dist.mat <- as.vector(RFearth2cartesian(Aalborg[,52:53]))
 ```
+```{r}
+P <- Aalborg[,12]
+model <- RMgauss()
+Pmodel <- RFfit(model = model, distances = dist.mat, dim = 3, data = P)
+```
+
 
 

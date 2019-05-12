@@ -15,6 +15,21 @@ library(ggplot2)
 library(scales)
 library(magrittr)
 library(spatstat)
+library(colorspace)
+library(RColorBrewer)
+library(mvtnorm)
+library(raster)
+library(tcltk2)
+library(tkrplot)
+library(spam)
+library(tools)
+library(geoR)
+library(minqa)
+library(soma)
+library(optimx)
+library(nloptr)
+library(pso)
+library(GenSA)
 ```
 
 ```{r}
@@ -71,4 +86,66 @@ plot(z, dta)
 #Asub <- sp2RF(Asub, param = list(n=1, vdim=1))
 #A2sub <- 
 ```
+
+```{r}
+data("weather")
+```
+
+```{r}
+dist.mat <- as.vector(RFearth2cartesian(weather[,3:4]))
+```
+
+```{r}
+nug <- RMmatrix(M = matrix(nc = 2, c(NA, 0, 0, NA)), RMnugget())
+pars.model <- nug + RMbiwm(nudiag = c(NA, NA), scale = NA, cdiag = c(NA, NA), rhored = NA)
+
+```
+
+
+
+```{r}
+P <- weather[,1:2]
+model <- RMgauss()
+Pmodel <- RFfit(model = pars.model, distances = dist.mat, dim = 3, data = P)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
