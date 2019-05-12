@@ -42,6 +42,26 @@ RFoptions(seed=0, height=4) ## *ANY* simulation will have the random seed 0; set
 RFoptions(modus_operandi="sloppy")
 ```
 
+```{r}
+## Preparation of graphics
+dev.new(height=7, width=16)
+## creating random variables first
+## here, a grid is chosen, but does not matter
+p <- 3:8
+points <- as.matrix(expand.grid(p,p))
+model <- RMexp() + RMtrend(mean=1)
+dta <- RFsimulate(model, x=points)
+x <- seq(2, 10, 0.15)
+```
+
+```{r}
+model <- RMexp() + RMtrend(mean=NA)
+z <- RFinterpolate(model, x=x, y=x, data=dta)
+plot(z, dta)
+
+```
+
+
 
 ```{r}
 points <- 100
@@ -53,20 +73,42 @@ d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=1) #1000
 
 ```{r}
 dev.new(height=50, width=50)
-p <- 1:25
+p <- 1:10
 points <- as.matrix(expand.grid(p,p))
-model45 <- RMexp() + RMtrend(mean=1)
+model45 <- RMgauss() + RMtrend(mean=1)
 dta <- RFsimulate(model45, x=points)
 plot(dta)
-x <- seq(0, 25, 0.25)
+x <- seq(0, 11, 0.25)
 
 ```
 
-ordinær kriging
+simple
 ```{r}
-model <- RMexp() + RMtrend(mean=NA)
+model <- RMgauss() + RMtrend(mean=1)
 z <- RFinterpolate(model, x=x, y=x, data=dta)
 plot(z, dta)
+```
+
+
+ordinær kriging
+```{r}
+model <- RMgauss() + RMtrend(mean=NA)
+z <- RFinterpolate(model, x=x, y=x, data=dta)
+plot(z, dta)
+```
+
+```{r}
+points <- 100
+x <- runif(points, 0, 3)
+y <- runif(points, 0, 3) ## random points in square [0, 3]^2
+model <- RMexp()+RMtrend(mean=4)
+d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=10) #1000
+```
+
+```{r}
+model2 <- RMexp() +RMtrend(mean = NA)
+modfit <- RFfit(model2, data = d)
+modfit
 ```
 
 
