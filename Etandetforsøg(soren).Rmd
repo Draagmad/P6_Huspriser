@@ -105,8 +105,8 @@ pars.model <- nug + RMbiwm(nudiag = c(NA, NA), scale = NA, cdiag = c(NA, NA), rh
 
 ```{r}
 P <- weather[,1:2]
-model <- RMgauss()
-Pmodel <- RFfit(model = pars.model, distances = dist.mat, dim = 3, data = P)
+model <- RMgauss()+RMtrend(mean = NA)
+Pmodel <- RFfit(model = model, distances = dist.mat, dim = 1, data = P)
 ```
 
 
