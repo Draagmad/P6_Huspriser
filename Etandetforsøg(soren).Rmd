@@ -98,17 +98,25 @@ plot(z, dta)
 ```
 
 ```{r}
+seed=0
 points <- 100
 x <- runif(points, 0, 3)
 y <- runif(points, 0, 3) ## random points in square [0, 3]^2
 model <- RMgauss(var=0.5)+RMtrend(mean=4)
 d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=10) #1000
+plot(d)
 ```
 
 ```{r}
 model2 <- RMgauss(var=NA) +RMtrend(mean = NA)
 modfit <- RFfit(model2, data = d)
 modfit
+```
+
+```{r}
+x <- seq(0, 4, 0.05)
+z <- RFinterpolate(model = modfit, x=x, y=x, data=d)
+plot(z)
 ```
 
 
