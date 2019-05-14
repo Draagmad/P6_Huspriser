@@ -3,6 +3,14 @@ filename <- "Redigeret-Dataudtraek 2004-2016.csv"
 HOME <- read.csv("Redigeret-Dataudtraek 2004-2016.csv", sep = ";", stringsAsFactors=FALSE,
                  encoding = "latin1")
 
+install.packages("devtools")
+
+install.packages("dawa")
+
+devtools::install_github("mikkelkrogsholm/dawa")
+
+?dawa
+
 # HOME$Studiebolig <- NULL
 HOME <- subset(HOME, Kontantpris > 19000)
 

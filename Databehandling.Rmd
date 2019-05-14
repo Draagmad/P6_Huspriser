@@ -56,11 +56,76 @@ Aalborg2 <- sp2RF(Aalborg, param = list(n=1, vdim=49))
 pris <- log(Aalborg2$Kontantpris)
 model <- pris ~ 1
 model2 <- RMgengneiting()
-c <- RFfit(model=model2, data= Aalborg2, allowdistanceZero=TRUE)
+c <- RFfit(model, data= Aalborg2, allowdistanceZero=TRUE)
 ```
 
 ```{r}
 names(Aalborg2)
 ```
 
+
+
+
+```{r}
+points <-1000 
+x <- runif(points, 0, 3)
+y <- runif(points, 0, 3) ## random points in square [0, 3]^2
+model <- RMgencauchy(alpha=1, beta=2)
+d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=1000)
+```
+```{r}
+estmodel <- RMgencauchy(var=NA, scale=NA, alpha=NA, beta=2) +
+            RMtrend(mean=NA)
+RFfit(estmodel, data=d)
+```
+```{r}
+plot(Aalborg)
+```
+
+```{r}
+plotRF(Aalborg2)
+```
+```{r}
+plot(d)
+```
+```{r}
+Model <- likfit(s100,ini=c(0.5,0.5), fix.nug=TRUE)
+```
+```{r}
+Model
+```
+```{r}
+summary(Model)
+```
+```{r}
+reml <- likfit(s100,ini=c(0.5,0.5),fix.nug=TRUE, lik.met="REML")
+```
+```{r}
+summary(reml)
+```
+```{r}
+plot(variog(s100))
+lines(Model)
+lines(reml, lty=2)
+```
+```{r}
+Aalborg <- as.numeric(Aalborg)
+```
+```{r}
+ml <- likfit(y, ini=c(0.5, 0.5), fix.nug = TRUE)
+```
+
+```{r}
+Aalborgv <- as.vector(Aalborg[,12])
+```
+```{r}
+model1 <- likfit(Aalborgv, ini=c(0.5,0,5, fix.nug=TRUE))
+```
+
+```{r}
+v <- s100
+```
+```{r}
+plot(Aalborg)
+```
 

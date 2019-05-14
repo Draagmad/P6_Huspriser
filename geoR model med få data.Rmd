@@ -1,0 +1,54 @@
+---
+title: "geoR"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+Aalborg <- read.csv("Aalborg.csv")
+```
+
+```{r}
+library(geoR)
+```
+
+```{r}
+SubAalborg <- sample_n(Aalborg,200)
+```
+
+
+
+```{r}
+coord <- as.matrix(log(SubAalborg[,50:51]))
+data <- log(SubAalborg[,12])
+gd <- cbind(jitterDupCoords(coord,max=0.1),data)
+jk <- as.geodata(gd)
+```
+```{r}
+model <- likfit(jk,ini=c(0.1,0.1))
+summary(model)
+```
+```{r}
+grid <- expand.grid(coord[,1],coord[,2])
+krig <- krige.conv(jk,locations = grid, krige.control(obj.model = model, cov.pars = model$cov.pars)
+plot(krig)                   
+```
+
+```{r}
+model1 <- likfit(jk,ini=c(0.5,0.5),fix.nug=TRUE)
+summary(model1)
+```
+```{r}
+model2 <- likfit(jk,ini=c(0.5,0.5),fix.nug=TRUE,lik.met="REML")
+summary(model2)
+```
+
+```{r}
+plot(variog(jk))
+lines(model)
+lines(model2,lty=2)
+lines(model1,lty=3)
+```
+
