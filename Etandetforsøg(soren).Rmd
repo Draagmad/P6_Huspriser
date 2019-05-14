@@ -57,7 +57,7 @@ x <- seq(2, 10, 0.15)
 ```{r}
 model <- RMexp() + RMtrend(mean=NA)
 z <- RFinterpolate(model, x=x, y=x, data=dta)
-plot(z, dta)
+plot(z,dta)
 
 ```
 
@@ -101,12 +101,12 @@ plot(z, dta)
 points <- 100
 x <- runif(points, 0, 3)
 y <- runif(points, 0, 3) ## random points in square [0, 3]^2
-model <- RMexp()+RMtrend(mean=4)
+model <- RMgauss(var=0.5)+RMtrend(mean=4)
 d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=10) #1000
 ```
 
 ```{r}
-model2 <- RMexp() +RMtrend(mean = NA)
+model2 <- RMgauss(var=NA) +RMtrend(mean = NA)
 modfit <- RFfit(model2, data = d)
 modfit
 ```
@@ -114,7 +114,7 @@ modfit
 
 ```{r}
 #estmodel <- RMgencauchy(var=NA, scale=NA, alpha=NA, beta=2) +
-            RMtrend(mean=NA)
+#            RMtrend(mean=NA)
 #gh <- RFfit(estmodel, data=d)
 ```
 
@@ -147,8 +147,7 @@ pars.model <- nug + RMbiwm(nudiag = c(NA, NA), scale = NA, cdiag = c(NA, NA), rh
 
 ```{r}
 P <- weather[,1:2]
-model <- RMgauss()+RMtrend(mean = NA)
-Pmodel <- RFfit(model = model, distances = dist.mat, dim = 1, data = P)
+pars <- RFfit(model = pars.model, distances = dist.mat, dim = 1, data = P)
 ```
 
 
@@ -164,7 +163,7 @@ plane <- (x %*% P)[, 1:2]
 n <- 200
 r <- apply(plane, 2, range)
 data <- cbind(plane, weather[, 1:2])
-z <- RFinterpolate(RMgauss()+RMtrend(mean = NA), data = data, dim = 2, x = seq(r[1, 1], r[2, 1], length = n), y = seq(r[1, 2], r[2, 2], length = n), varunits = c("Pa", "K"))
+z <- RFinterpolate(pars, data = data, dim = 2, x = seq(r[1, 1], r[2, 1], length = n), y = seq(r[1, 2], r[2, 2], length = n), varunits = c("Pa", "K"))
 plot(z)
 
 ```

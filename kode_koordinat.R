@@ -12,7 +12,7 @@ Aalborg$long=0
 Aalborg$lat=0
 
 
-for (i in 5369:length(Aalborg$long)) {
+for (i in 1:length(Aalborg$long)) {
   ad <- Aalborg$FuldAdresse[i]
   post <- Aalborg$Postnr[i]
   by <- Aalborg$Bynavn[i]
