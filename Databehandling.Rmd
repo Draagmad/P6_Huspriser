@@ -19,7 +19,36 @@ library(RandomFields)
 
 ```{r}
 Aalborg <- read.csv("Aalborg.csv")
+#str(Aalborg)
 ```
+
+
+```{r}
+
+Aalborg2 <- RFspatialPointsDataFrame(coords = Aalborg[, c("xkoor","ykoor")], data = Aalborg[, c("Kontantpris")], RFparams = list(vdim=1, n=1) )
+```
+
+```{r}
+dta <- Aalborg2["Kontantpris"]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 måske ikke bruge alligevel
 ```{r}
