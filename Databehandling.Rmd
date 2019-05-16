@@ -22,18 +22,34 @@ Aalborg <- read.csv("Aalborg.csv")
 #str(Aalborg)
 ```
 
+```{r}
+Aalborg <- subset(Aalborg, ykoor!=min(ykoor))
+```
+
 
 ```{r}
 
-Aalborg2 <- RFspatialPointsDataFrame(coords = Aalborg[, c("xkoor","ykoor")], data = Aalborg[, c("Kontantpris")], RFparams = list(vdim=1, n=1) )
+Aalborg2 <- RFspatialPointsDataFrame(coords = Aalborg[, c("xkoor","ykoor")], data = Aalborg[, c("Kontantpris","Kontantpris")], RFparams = list(vdim=1, n=2) )
 ```
 
 ```{r}
 dta <- Aalborg2["Kontantpris"]
 ```
 
+```{r}
+plot(Aalborg2, zlim=cbind(c(200000,8*10^6)))
+```
 
+```{r}
+model2 <- RMgauss(var=NA) +RMtrend(mean = NA)
+modfit <- RFfit(model2, data = Aalborg2)
+modfit
+```
 
+```{r}
+x <- seq(0, 4, 0.05)
+z <- RFinterpolate(model = model2, x=x, y=x, data=Aalborg2)
+```
 
 
 

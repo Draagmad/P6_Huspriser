@@ -119,6 +119,28 @@ plot(z)
 ```
 
 ```{r}
+cr <- RFcrossvalidate(model2, data = d)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
 var2 <- RFvariogram(data=d) 
 plot(var2)
 ```
