@@ -33,7 +33,7 @@ library(GenSA)
 ```
 
 ```{r}
-RFoptions(seed=0, height=4) ## *ANY* simulation will have the random seed 0; set
+RFoptions(seed=0) ## *ANY* simulation will have the random seed 0; set
 ##                   RFoptions(seed=NA) to make them all random again
 
 
@@ -102,13 +102,56 @@ points <- 100
 x <- runif(points, 0, 3)
 y <- runif(points, 0, 3) ## random points in square [0, 3]^2
 model <- RMgauss(var=0.5)+RMtrend(mean=4)
-d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=10) #1000
+d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=6) #1000
+plot(d)
 ```
 
 ```{r}
 model2 <- RMgauss(var=NA) +RMtrend(mean = NA)
 modfit <- RFfit(model2, data = d)
 modfit
+```
+
+```{r}
+x <- seq(0, 4, 0.05)
+z <- RFinterpolate(model = modfit, x=x, y=x, data=d)
+plot(z)
+```
+
+```{r}
+cr <- RFcrossvalidate(model2, data = d)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+var2 <- RFvariogram(data=d) 
+plot(var2)
+```
+
+```{r}
+model <- RMexp()
+x <- seq(0, 10, 0.02)
+z <- RFsimulate(model, x=x, n=2)
+emp.vario <- RFvariogram(data=z)
+plot(emp.vario, model=model)
+
 ```
 
 
