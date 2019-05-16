@@ -7,13 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(RandomFields)
-library(kriging)
-library(sp)
-library(gstat)
-library(dplyr)
-library(ggplot2)
-library(scales)
-library(magrittr)
+#library(kriging)
+#library(sp)
+#library(gstat)
+#library(dplyr)
+#library(ggplot2)
+#library(scales)
+#library(magrittr)
 ```
 
 
@@ -45,26 +45,37 @@ y <- GridTopology(c(minx,miny),c(1,1),c(numbx,numby))
 ```
 
 
-
 ```{r}
-coordinates(Aalborg) <- ~xkoor+ykoor
-Aalborg2 <- sp2RF(Aalborg, param = list(n=1, vdim=49))
+coordinates(Aalborg) <- ~xkoor+ykoor+Salgsdato
+Aalborg2 <- sp2RF(Aalborg, param = list(n=1, vdim=50))
+Dta <- cbind(Aalborg[,50:51])
 ```
 
 
 ```{r}
-pris <- log(Aalborg2$Kontantpris)
+data1 <- Aalborg[,12]
+pris <- log(Aalborg$Kontantpris)
 model <- pris ~ 1
+<<<<<<< HEAD
 model2 <- RMgengneiting()
 c <- RFfit(model, data= Aalborg2, allowdistanceZero=TRUE)
+=======
+c <- RFfit(model=model, x=Dta , data= data1, allowdistanceZero=TRUE)
+>>>>>>> b14aa0caeab4c6195ab9e7ac393266f035168ef6
 ```
 
 ```{r}
-names(Aalborg2)
+dist.mat <- as.vector(RFearth2cartesian(Aalborg[,52:53]))
+```
+```{r}
+P <- Aalborg[,12]
+model <- RMgauss()+RMtrend(mean = NA)
+Pmodel <- RFfit(model = model, distances = dist.mat, dim = 3, data = P)
 ```
 
 
 
+<<<<<<< HEAD
 
 ```{r}
 points <-1000 
@@ -129,3 +140,5 @@ v <- s100
 plot(Aalborg)
 ```
 
+=======
+>>>>>>> b14aa0caeab4c6195ab9e7ac393266f035168ef6

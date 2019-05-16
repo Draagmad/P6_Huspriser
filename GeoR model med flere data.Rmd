@@ -1,0 +1,62 @@
+---
+title: "GeoR større datasæt"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+```
+```{r}
+Aalborg <- read.csv("Aalborg.csv")
+```
+
+```{r}
+library(geoR)
+```
+
+```{r}
+SubAalborg <- sample_n(Aalborg,1000)
+```
+
+
+```{r}
+coord <- as.matrix(log(SubAalborg[,50:51]))
+data <- log(SubAalborg[,12])
+gd <- cbind(jitterDupCoords(coord,max=0.1),data)
+jk <- as.geodata(gd)
+```
+```{r}
+model500 <- likfit(jk,ini=c(0.5,0.5))
+summary(model500)
+```
+```{r}
+model501 <- likfit(jk,ini=c(0.5,0.5),fix.nug=TRUE)
+summary(model501)
+```
+
+```{r}
+
+```
+
+```{r}
+model502 <- likfit(jk,ini=c(0.5,0.5),fix.nug=TRUE,lik.met="REML")
+summary(model502)
+```
+
+```{r}
+plot(variog(jk))
+lines(model500)
+lines(model501,lty=2)
+lines(model502,lty=3)
+```
+```{r}
+
+```
+
+
+
