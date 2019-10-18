@@ -3,36 +3,9 @@ title: "Test"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r}
-data(soil)
-str(soil)
-soil <-RFspatialPointsDataFrame(
- coords = soil[ , c("x.coord", "y.coord")],
- data = soil[ , c("moisture", "NO3.N", "Total.N", "NH4.N", "DOC", "N20N")],
- RFparams=list(vdim=6, n=1)) 
-```
-```{r}
-soil["moisture"]
 
-```
-```{r}
-Model <-~1+RMwhittle(scale=NA, var=NA, nu=NA) + RMnugget(var=NA)
-summary(Model)
-```
-```{r}
-fit <- RFfit(Model,data=dta)
-summary(fit)
-```
 
-```{r}
-opt <- "optimx"
-print(system.time(fit <- RFfit(Model,data=dta, optimiser=opt)))
-print(fit)
-```
 
 ```{r}
 dta <- Aalborg["Kontantpris"]
@@ -54,5 +27,71 @@ Model <-~1+RMwhittle(scale=NA, var=NA, nu=NA) + RMnugget(var=NA)
 ```
 ```{r}
 fit <- RFfit(Model,data=Pris,allowdistanceZero=TRUE)
+```
+
+```{r}
+x <- as.vector(Aalborg["xkoor"])
+y <- as.vector(Aalborg["ykoor"])
+```
+```{r}
+?ppp
+```
+
+```{r}
+max(x)
+min(x)
+```
+
+```{r}
+max(y)
+min(y)
+```
+
+```{r}
+a <- as.numeric(unlist(x))
+b <- as.numeric(unlist(y))
+```
+
+```{r}
+xt <- as.vector(c(520000,585000))
+yt <- as.vector(c(6200000,6350000))
+```
+
+
+```{r}
+O <- owin(xt,yt)
+```
+
+
+```{r}
+HuspriserAA <- ppp(a,b, O)
+HuspriserAAny <- unique.ppp(HuspriserAA)
+```
+
+```{r}
+plot(HuspriserAAny)
+```
+```{r}
+DensAA <- density(HuspriserAAny)
+plot(DensAA)
+```
+```{r}
+K <- Kest(HuspriserAAny)
+plot(K)
+```
+```{r}
+plot(K, sqrt(iso/pi) ~ r)
+ plot(K, sqrt(./pi) ~ r, ylab="L(r)", main="L function for cells")
+```
+```{r}
+Env <- envelope(HuspriserAAny, fun=Kest)
+```
+
+```{r}
+plot(Env)
+```
+
+```{r}
+
 ```
 
