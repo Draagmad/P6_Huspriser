@@ -39,7 +39,7 @@ RFoptions(seed=0) ## *ANY* simulation will have the random seed 0; set
 
 
 
-RFoptions(modus_operandi="sloppy")
+RFoptions(modus_operandi="normal")
 ```
 
 ```{r}
@@ -101,16 +101,23 @@ plot(z, dta)
 points <- 100
 x <- runif(points, 0, 3)
 y <- runif(points, 0, 3) ## random points in square [0, 3]^2
-model <- RMgauss(var=0.5)+RMtrend(mean=4)
-d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=6) #1000
+model <- RMgauss(var=0.8, scale = 0.5)+RMtrend(mean=4)
+d <- RFsimulate(model, x=x, y=y, grid=FALSE, n=10) #1000
 plot(d)
 ```
 
 ```{r}
-model2 <- RMgauss(var=NA) +RMtrend(mean = NA)
+model2 <- RMgauss(var=NA, scale = NA) +RMtrend(mean = NA)
 modfit <- RFfit(model2, data = d)
 modfit
 ```
+
+```{r}
+model3 <- RMexp(var=NA, scale = NA) +RMtrend(mean = NA)
+modfit2 <- RFfit(model3, data = d)
+modfit2
+```
+
 
 ```{r}
 x <- seq(0, 4, 0.05)
